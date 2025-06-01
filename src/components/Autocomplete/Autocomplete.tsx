@@ -6,6 +6,7 @@ import React, {
   useState,
 } from 'react';
 import debounce from 'lodash.debounce';
+import cn from 'classnames';
 
 import { Person } from '../../types/Person';
 import { getFilteredPeople } from '../../utils/getFilteredPeople';
@@ -82,7 +83,7 @@ export const Autocomplete: React.FC<Props> = ({
       setInputValue(value);
       setIsFocused(true);
 
-      if (selectedPerson && value === '') {
+      if (selectedPerson) {
         clearSelection();
       }
 
@@ -111,7 +112,12 @@ export const Autocomplete: React.FC<Props> = ({
   }, []);
 
   return (
-    <div className="dropdown is-active" ref={wrapperRef}>
+    <div
+      className={cn('dropdown', {
+        'is-active': isFocused && filteredPeople.length > 0,
+      })}
+      ref={wrapperRef}
+    >
       <div className="dropdown-trigger">
         <input
           type="text"
